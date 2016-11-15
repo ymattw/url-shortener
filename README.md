@@ -30,7 +30,7 @@ First, start a postgres server:
 
 Then start the URL shortening service by:
 
-    $ docker run --rm --link psql-server:postgres -p 8080:80 -d ymattw/url-shortening
+    $ docker run --rm --link psql-server:postgres -p 8080:80 ymattw/url-shortener
 
 Now try send requests to the API server listening on `localhost:8080`:
 
@@ -53,7 +53,11 @@ To run with your own Postgres server, a config json file will be needed.
 
 Now run the service with the config:
 
-    $ docker run --rm -v $PWD/config.json:/opt/url-shortener/config.json:ro -p 8080:80 -d ymattw/url-shortening
+    $ docker run --rm -v $PWD/config.json:/opt/url-shortener/config.json:ro -p 8080:80 ymattw/url-shortener
+
+Note: If you database requires a password, best way to authenticate is to store
+your password in `~/.pgpass` and map that into `/root/.pgpass` when run the
+above docker command.
 
 # Request and Response
 

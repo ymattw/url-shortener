@@ -1,0 +1,12 @@
+postgres:
+  image: postgres:9.6-alpine
+
+url-shortener:
+  image: ymattw/url-shortener
+  ports:
+    - 127.0.0.1:9988:80
+  links:
+    - postgres
+  volumes:
+    - ./src:/opt/url-shortener
+    - ./config.json.sample:/opt/url-shortener/config.json

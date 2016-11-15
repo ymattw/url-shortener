@@ -1,0 +1,13 @@
+{
+  "db": {
+    "server": "postgres",
+    "port": 5432,
+    "user": "postgres",
+    "database": "postgres"
+  },
+  "api": {
+    "bindAddress": "0.0.0.0",
+    "port": 80,
+    "serverName": "localhost"
+  }
+}

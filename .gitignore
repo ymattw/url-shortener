@@ -1,0 +1,6 @@
+/config.sample
+/src/config.json
+*.pyc
+/.coverage
+/htmlcov/
+/__pycache__/
