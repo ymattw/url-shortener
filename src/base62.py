@@ -19,7 +19,8 @@ class Base62(object):
         """Convert a non-negative number to base-62 encoded string. Raises
         ValueError if input if not a non-negative integer
         """
-        if not isinstance(number, long) or number < 0:
+        if (not isinstance(number, long) and not isinstance(number, int) or
+                number < 0):
             raise ValueError('invalid input to encode()')
         if number == 0:
             return self._encoding_table[0]
