@@ -9,4 +9,4 @@ url-shortener:
     - postgres
   volumes:
     - ./src:/opt/url-shortener
-    - ./config.json.sample:/opt/url-shortener/config.json
+    - ./config.json.default:/opt/url-shortener/config.json:ro

@@ -48,7 +48,7 @@ To build the docker image locally:
 
 To run with your own Postgres server, a config json file will be needed.
 
-    $ cp config.json.sample config.json
+    $ cp config.json.default config.json
     $ vim config.json  # Fill in Postgres server, port, database, etc.
 
 Now run the service with the config:
