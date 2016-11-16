@@ -24,21 +24,21 @@ Requirements to run the service are
 
 # Demo
 
-First, start a postgres server:
+Start a docker compose environment
 
-    $ docker run --name psql-server -d postgres:9.6-alpine
+    $ make compose-up
 
-Then start the URL shortening service by:
+This will pull docker image `postgres:9.6-alpine` (48 MB) and
+`ymattw/url-shortener` (109 MB).
 
-    $ docker run --rm --link psql-server:postgres -p 8080:80 ymattw/url-shortener
+Once the compose environment is up, try send requests to the API server
+listening on `localhost:9988`:
 
-Now try send requests to the API server listening on `localhost:8080`:
+    $ curl -sX POST -H 'Content-Type: application/json' 'localhost:9988/v1/shorten' -d '{"url":"http://example.com"}'
+    {"short":"http://localhost/1"}
 
-    $ curl -sX POST -H 'Content-Type: application/json' 'localhost:8080/v1/shorten' -d '{"url":"http://a.very.long.url"}'
-    {"short":"http://localhost:8080/abcdef"}
-
-    $ curl -sX GET -H 'Content-Type: application/json' 'localhost:8080/v1/original' -d '{"short":"http://localhost:8080/abcdef"}'
-    {"original":"http://a.very.long.url"}
+    $ curl -sX GET -H 'Content-Type: application/json' 'localhost:9988/v1/original' -d '{"short":"http://localhost/1"}'
+    {"original":"http://example.com"}
 
 # Usage
 
@@ -46,7 +46,7 @@ To build the docker image locally:
 
     $ make build
 
-To run with your own Postgres server, a config json file will be needed.
+To run with your own Postgres server, a config.json file will be needed.
 
     $ cp config.json.default config.json
     $ vim config.json  # Fill in Postgres server, port, database, etc.
@@ -54,10 +54,6 @@ To run with your own Postgres server, a config json file will be needed.
 Now run the service with the config:
 
     $ docker run --rm -v $PWD/config.json:/opt/url-shortener/config.json:ro -p 8080:80 ymattw/url-shortener
-
-Note: If you database requires a password, best way to authenticate is to store
-your password in `~/.pgpass` and map that into `/root/.pgpass` when run the
-above docker command.
 
 # Request and Response
 
@@ -105,5 +101,5 @@ blob in body text. Status codes are listed below.
 | 500           | INTERNAL SERVER ERROR | Unknown error happened on server side (check log)                       |
 | 501           | NOT IMPLEMENTED       | Not supported API version                                               |
 
-Body JSON is in format `{"url":"http://example.com"}` when status code is 200,
-or absent otherwise.
+Body JSON is in format `{"original":"http://example.com"}` when status code is
+200, or absent otherwise.
