@@ -84,6 +84,9 @@ class URLShortenerServer(object):
             self._logger.error(e)
             return self._response(500)
 
+    def health(self):
+        return Response('', status=200)
+
     def run(self):
         self._app.run(host=self._config['api']['bindAddress'],
                       port=self._config['api']['port'])
@@ -97,6 +100,10 @@ class URLShortenerServer(object):
                                endpoint='original',
                                view_func=self.original,
                                methods=['GET'])
+        self._app.add_url_rule('/_health',
+                               endpoint='health',
+                               view_func=self.health,
+                               methods=['HEAD'])
 
     def _response(self, status, data=None):
         return Response(json.dumps(data, separators=(',', ':')),

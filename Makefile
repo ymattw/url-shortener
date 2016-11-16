@@ -24,9 +24,10 @@ unit:
 
 functional:
 	docker-compose up -d
-	@sleep 0.5
+	@echo "Waiting for server ..."
+	while sleep 1; do curl -Is localhost:9988/_health | grep '^HTTP/.* 200' && break; done
 	test/functional.sh
 	docker-compose down
 
 clean:
-	docker-compose down rm
+	docker-compose down
