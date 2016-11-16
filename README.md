@@ -7,6 +7,7 @@ _Just a toy project for demo purpose._
   - [Demo](#demo)
   - [Usage](#usage)
   - [Request and Response](#request-and-response)
+  - [Development Guide](#development-guide)
 
 # About
 
@@ -103,3 +104,19 @@ blob in body text. Status codes are listed below.
 
 Body JSON is in format `{"original":"http://example.com"}` when status code is
 200, or absent otherwise.
+
+# Development Guide
+
+Highly recommend to use [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+Once you have virtualenv bootstrapped, initialize a virtual env like this
+(example):
+
+    $ virtualenv ~/venv
+    $ source ~/venv/bin/activate
+    (venv) $ pip install -r test/test_requirements.txt
+
+Then type `make test` to test changes.
+
+To exit the virtual env:
+
+    (venv) $ deactivate
