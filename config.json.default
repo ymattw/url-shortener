@@ -1,9 +1,10 @@
 {
   "db": {
-    "server": "postgres",
+    "host": "postgres",
     "port": 5432,
     "user": "postgres",
-    "database": "postgres"
+    "password": "",
+    "dbname": "postgres"
   },
   "api": {
     "bindAddress": "0.0.0.0",
