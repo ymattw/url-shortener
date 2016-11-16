@@ -1,6 +1,7 @@
-.PHONY: build compose-up compose-down test lint functional clean
+.PHONY: build compose-up compose-down test lint unit functional clean
 
 IMAGE := ymattw/url-shortener
+COVERAGE_OMIT ?= '*/lib*/python*/*,*/pypy-*/*,*/site-packages/*'
 
 build:
 	docker build -t $(IMAGE) .
@@ -14,7 +15,12 @@ compose-down:
 test: lint unit functional
 
 lint:
-	pep8 src/*.py
+	pep8 src/*.py test/*.py
+
+unit:
+	coverage erase
+	coverage run --append --omit=$(COVERAGE_OMIT) test/*test.py
+	coverage report --show-missing
 
 functional:
 	docker-compose up -d
