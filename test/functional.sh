@@ -6,42 +6,42 @@ readonly SERVER_URL="http://localhost:${SERVER_PORT}"
 
 # Test functions, name must starts with 'test_'
 #
-function test_shorten_invalid_version
+function test_00_shorten_invalid_version
 {
     check_shorten "/v2/shorten" "http://example.com" 501 "null"
 }
 
-function test_shorten_invalid_url
+function test_01_shorten_invalid_url
 {
     check_shorten "/v1/shorten" "xxx://example.com" 400 "null"
 }
 
-function test_shorten_normal
+function test_02_shorten_normal
 {
     check_shorten "/v1/shorten" "http://example.com" 200 \
         '{"short":"http://localhost/*[0-9A-Za-z]*"}'
 }
 
-function test_original_invalid_version
+function test_03_original_invalid_version
 {
     check_original "/v2/original" "http://localhost/0" 501 "null"
 }
 
-function test_original_invalid_short_url
+function test_04_original_invalid_short_url
 {
     check_original "/v1/original" "http://fake-host/0" 400 "null"
     check_original "/v1/original" "http://localhost:invalid-port/0" 400 "null"
 }
 
-function test_original_non_existing_slug
+function test_05_original_non_existing_slug
 {
     check_original "/v1/original" "http://localhost/abcd1234" 404 "null"
 }
 
-function test_original_normal
+function test_06_original_normal
 {
-    check_original "/v1/original" "http://localhost/0" 200 \
-        '{"url":"http://example.com"}'
+    check_original "/v1/original" "http://localhost/1" 200 \
+        '{"original":"http://example.com"}'
 }
 
 # Helper functions
@@ -98,7 +98,7 @@ function _check_call
 
 function all_tests
 {
-    declare -f | grep -Eo '^test_[a-z_]+'
+    declare -f | grep -Eo '^test_[0-9][0-9]_[a-z_]+'
 }
 
 function run_test
