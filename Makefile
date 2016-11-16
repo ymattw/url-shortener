@@ -1,10 +1,16 @@
-.PHONY: build compose-up compose-down test lint unit functional clean
+.PHONY: build login push compose-up compose-down test lint unit functional clean
 
 IMAGE := ymattw/url-shortener
 COVERAGE_OMIT ?= '*/lib*/python*/*,*/pypy-*/*,*/site-packages/*'
 
 build:
 	docker build -t $(IMAGE) .
+
+login:
+	grep -qw 'auth' $(HOME)/.docker/config.json 2>/dev/null || docker login
+
+push: login
+	docker push $(IMAGE)
 
 compose-up:
 	docker-compose up -d
